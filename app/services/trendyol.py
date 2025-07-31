@@ -1,3 +1,4 @@
+import os
 from app.config import API_KEY, API_SECRET, SUPPLIER_ID
 from app.models.product import Product
 import requests
@@ -5,12 +6,17 @@ import base64
 import json
 from datetime import datetime
 
-def write_products_to_file(products, filename="products.json"):
-    with open(filename, "w", encoding="utf-8") as f:
+IS_RENDER = os.getenv("RENDER", "false").lower() == "true"
+PRODUCTS_JSON_PATH = "/tmp/products.json"
+
+def kaydet_urunler(products):
+    os.makedirs("/tmp", exist_ok=True)
+    with open(PRODUCTS_JSON_PATH, "w", encoding="utf-8") as f:
         json.dump({
             "updated_at": datetime.now().isoformat(),
             "products": products
         }, f, ensure_ascii=False, indent=2)
+
 
 def generate_headers():
     credentials = f"{API_KEY}:{API_SECRET}"
