@@ -2,6 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.tasks.background_updater import background_updater
 import asyncio
+import json
+import os
+
+PRODUCTS_JSON_PATH = "/tmp/products.json"
 
 app = FastAPI()
 
@@ -23,8 +27,7 @@ def home():
 @app.get("/api/products/")
 def get_products():
     try:
-        import json
-        with open("products.json", "r", encoding="utf-8") as f:
+        with open(PRODUCTS_JSON_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
         return data
     except Exception as e:
