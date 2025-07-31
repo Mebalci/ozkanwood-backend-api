@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ozkanwood-backend-api
+    runtime: python
+    buildCommand: ./build.sh
+    startCommand: uvicorn app.main:app --host=0.0.0.0 --port=10000
+    envVars:
+      - key: TRENDYOL_API_KEY
+        sync: false
+      - key: TRENDYOL_API_SECRET
+        sync: false
+      - key: TRENDYOL_SUPPLIER_ID
+        sync: false
+    autoDeploy: true
+    plan: free
