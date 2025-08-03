@@ -16,6 +16,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/api/ping")
+async def ping():
+    return {"status": "ok"}
+
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(background_updater())
